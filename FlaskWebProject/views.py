@@ -67,10 +67,10 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            app.logger.info('User login failure - Username: ' + form.username.data)
+            app.logger.info('Failed login from user %s', form.username.data)
             flash('Invalid username or password')
             return redirect(url_for('login'))
-        app.logger.info('User login success - Username: ' + form.username.data)
+        app.logger.info('user %s logged in successfully', form.username.data)
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
@@ -101,6 +101,7 @@ def authorized():
         user = User.query.filter_by(username="admin").first()
         login_user(user)
         _save_cache(cache)
+        app.logger.info('user %s logged in successfully', user.username)
     return redirect(url_for('home'))
 
 @app.route('/logout')
