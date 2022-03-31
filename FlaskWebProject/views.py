@@ -21,6 +21,7 @@ imageSourceUrl = 'https://'+ app.config['BLOB_ACCOUNT']  + '.blob.core.windows.n
 def home():
     user = User.query.filter_by(username=current_user.username).first_or_404()
     posts = Post.query.all()
+    app.logger.info('In view page')
     return render_template(
         'index.html',
         title='Home Page',
@@ -66,10 +67,10 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            app.logger.warning('User login failure - Username: ' + form.username.data)
+            app.logger.info('User login failure - Username: ' + form.username.data)
             flash('Invalid username or password')
             return redirect(url_for('login'))
-        app.logger.warning('User login success - Username: ' + form.username.data)
+        app.logger.info('User login success - Username: ' + form.username.data)
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
