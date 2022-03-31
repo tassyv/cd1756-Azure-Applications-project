@@ -25,3 +25,4 @@ For this project I've opted for App Service given that the deployed application 
 ### Assess app changes that would change your decision.
 
 If the traffic on the application would increase significantly enough to reach the limits of App Service vCPU or a steady high traffic; using a VM could become more cost effective. 
+Should the application require to stick to a particular runtime version that no longer is supported by Microsoft, this could necessitate a migration towards a VM based compute.
